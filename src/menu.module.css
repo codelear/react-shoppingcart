@@ -1,0 +1,8 @@
+.item-description{
+    background: rgb(255, 240, 230);
+}
+
+.item-description:hover{
+    
+    background: rgb(253, 243, 200);
+}
