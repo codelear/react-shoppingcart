@@ -36,15 +36,15 @@ export function Cart(props) {
     }
   }
 
-  function removeFromCartHandler(eventArgs) {
-    addCartItems((previousState)=>previousState.filter(state_item=>state_item.item_id!==+eventArgs.target.id));
+  function removeFromCartHandler(id) {
+    addCartItems((previousState)=>previousState.filter(state_item=>state_item.item_id!==+id));
   }
 
-  function increaseItemCountHandler(eventArgs) {
+  function increaseItemCountHandler(id) {
     addCartItems((previousState) => {
       const newstate = [...previousState];
       return newstate.map((state_item) => {
-        if (state_item.item_id === +eventArgs.target.id) {
+        if (state_item.item_id === +id) {
           return { ...state_item, item_count: state_item.item_count + 1 };
         }
         return state_item;
@@ -52,12 +52,12 @@ export function Cart(props) {
     });
   }
 
-  function reduceItemCountHandler(eventArgs) {
+  function reduceItemCountHandler(id) {
     addCartItems((previousState) => {
       const newstate = [...previousState];
       return newstate.map((state_item) => {
         if (
-          state_item.item_id === +eventArgs.target.id &&
+          state_item.item_id === +id &&
           state_item.item_count > 0
         ) {
           return { ...state_item, item_count: state_item.item_count - 1 };
@@ -88,8 +88,8 @@ export function Cart(props) {
                 className={`${classes["item-description"]} m-2 align-items-center align-items-left`}
                 key={menu_item.item_id}
               >
-                <Col className="sm-col-1">
-                <FontAwesomeIcon icon={"times"} id={menu_item.item_id} onClick={removeFromCartHandler}/>
+                <Col className="sm-col-1" onClick={removeFromCartHandler.bind(null, menu_item.item_id)}>
+                <FontAwesomeIcon icon={"times"} onClick={removeFromCartHandler.bind(null, menu_item.item_id)}/>
                 </Col>
 
                 <Col className="sm-col-5 align-self-left">
@@ -104,8 +104,7 @@ export function Cart(props) {
                       <div className="float-left">
                         <Button
                           size="sm"
-                          onClick={reduceItemCountHandler}
-                          id={menu_item.item_id}
+                          onClick={reduceItemCountHandler.bind(null, menu_item.item_id)}
                         >
                           -
                         </Button>
@@ -116,8 +115,7 @@ export function Cart(props) {
                       <div className="float-left">
                         <Button
                           size="sm"
-                          onClick={increaseItemCountHandler}
-                          id={menu_item.item_id}
+                          onClick={increaseItemCountHandler.bind(null, menu_item.item_id)}
                         >
                           +
                         </Button>
